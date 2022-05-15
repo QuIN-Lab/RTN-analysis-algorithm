@@ -1,0 +1,92 @@
+\documentclass[crop,tikz,convert={outext=.svg,command=\unexpanded{pdf2svg \infile\space\outfile}},multi=false]{standalone}
+
+
+\usepackage{graphicx}
+\usepackage{tikz}
+\usepackage{mathrsfs}
+\usetikzlibrary{positioning,calc,arrows.meta,shapes.geometric,fit}
+
+\usepackage{mathtools}
+
+\DeclarePairedDelimiter\abs{\lvert}{\rvert}
+
+
+\newcommand*\mean[1]{\bar{#1}}
+\newcommand{\tauCombined}{\mean{\tau}}
+\newcommand{\thi}{\mean{\tau}_\mathrm{high}}
+\newcommand{\tlo}{\mean{\tau}_\mathrm{low}}
+\newcommand{\thith}{\mean{\tau}_{\mathrm{high}_\mathrm{th.}}}
+\newcommand{\tloth}{\mean{\tau}_{\mathrm{low}_\mathrm{th.}}}
+\newcommand{\drtn}{\Delta_\mathrm{RTN}}
+\newcommand{\wn}{\sigma_\mathrm{wn}}
+\newcommand{\wnratio}{Q_\mathrm{wn}}
+\newcommand{\wnest}{\sigma_{\mathrm{wn}_\mathrm{est.}}}
+\newcommand{\ntraps}{N_\mathrm{traps}}
+\newcommand{\npeaks}{N_\mathrm{peaks}}
+
+\begin{document}
+	\begin{tikzpicture}[node distance=2.2cm, loose/.style={inner sep=.7em},
+oval/.style={ellipse,draw}, scale=2, transform shape]]
+		\node (gen_truth) {1. Randomly chose $\drtn$, $\thith$, $\tloth$.};
+		\node (gen_truth_desc) [right of=gen_truth, node distance=6cm, align=center] {$\thith=668$\\$\tloth=649$};
+
+		\ifnew
+		\else
+			\node[oval, fit=(gen_truth_desc), draw=red, densely dashed, thick]{};
+		\fi
+
+		\node (gen_rtn) [below of=gen_truth] {2. Generate 2-level RTN};
+		\node (pure_rtn) [right of=gen_rtn, node distance=6cm] {\includegraphics[height=6em]{./noiseless.pdf}};
+		\node (noise) [below of=gen_rtn] {3. Add white noise};
+		\node (noise_sig) [right of=noise, node distance=6cm] {\includegraphics[height=6em]{./noisy.pdf}};
+
+		\ifnew
+			\node (2_1) [left of=noise, node distance=5cm] {2.1. Extract dwell times};
+			\node (2_2) [below of=2_1] {2.2. Take the mean};
+			\node (2_2_prime) [below of=2_2, node distance = 1.0cm, align=center] {$\thith^\prime$\\$\tloth^\prime$};
+			\node[oval, fit=(2_2_prime)(2_2), draw=red, densely dashed, thick]{};
+			\draw [->] (gen_rtn) -- (2_1);
+			\draw [->] (2_1) -- (2_2);
+		\fi
+
+		\node (alg) [below of=noise] {4. 3-Step algorithm};
+		\node (rnn_out) [right of=alg, node distance=6cm] {\includegraphics[height=6em]{./pred.pdf}};
+		\node (dwell) [below of=alg] {5. Extract dwell times};
+		\node (dwell_detail) [right of=dwell, node distance=6cm, align=left] {$\tau_{\mathrm{high}_\mathrm{exp.}} = [0.6, 0.3, 0.5, 1.0, 0.8, 0.4, 1.2, \ldots]$\\$\tau_{\mathrm{low}_\mathrm{exp.}} = [1.1, 1.2, 0.3, 0.2, 0.0, 0.5, \ldots]$};
+		\node (mean) [below of=dwell] {6. Take the mean};
+		\node (mean_detail) [right of=mean, node distance=6cm, align=left] {$\bar{\tau}_{\mathrm{high}_\mathrm{exp.}} = 647.53$\\$\bar{\tau}_{\mathrm{low}_\mathrm{exp.}} = 667.20$};
+		\node[oval, fit=(mean_detail), draw=red, densely dashed, thick]{};
+
+		\node (error) [below of=mean] {7. Compare theoretical and experimental};
+
+		\node (error_desk) [right of=error, node distance=6cm] {$\epsilon(\mean{\tau}) = \frac{\abs{\mean{\tau}_\mathrm{th.}\ifnew^\prime\fi - \mean{\tau}_\mathrm{exp.}}}{\mean{\tau}_\mathrm{th.}\ifnew^\prime\fi}$};
+		\draw [->] (gen_truth) -- (gen_rtn);
+		\draw [->] (gen_rtn) -- (noise);
+		\draw [->] (noise) -- (alg);
+		\draw [->] (alg) -- (dwell);
+		\draw [->] (dwell) -- (mean);
+		\draw [->] (mean) -- (error);
+
+
+		\draw [red,<-,thick] plot [smooth] coordinates {($(error_desk)+(25pt,10pt)$) ($(mean_detail)+(20pt,-30pt)$)};
+
+		\ifnew
+			\draw [red,<-,thick] plot [smooth] coordinates {
+				($(error_desk)+(0pt,10pt)$)
+				($(error_desk)+(-40pt,25pt)$)
+				($(error_desk)+(-250pt,40pt)$)
+				($(2_2_prime)+(20pt,-37pt)$)
+			};
+		\else
+			\draw [red,<-,thick] plot [smooth] coordinates {
+				($(error_desk)+(0pt,10pt)$)
+				($(error_desk)+(-25pt,25pt)$)
+				($(error_desk)+(-100pt,60pt)$)
+				($(gen_truth_desc)+(-100pt,-60pt)$)
+				($(gen_truth_desc)+(-53pt,-10pt)$)
+			};
+		\fi
+	\end{tikzpicture}
+	\vspace{2em}
+
+\end{document}
