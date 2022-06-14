@@ -1,3 +1,4 @@
+import re
 from pathlib import Path
 
 import click
@@ -116,7 +117,11 @@ def output_time_series(results_dir, mode_str, n_traps, files,
                                 model_type=model_type)
 
         # Not necessarily 'trap_0', 'trap_1' in that order!
-        pred = pd.DataFrame(pred, columns=signals.columns[:2])
+        columns = [c for c in signals.columns if re.fullmatch(r'trap_\d')] \
+            [:np.shape(pred)[0]]
+        console.print(type(pred))
+        console.print(np.shape(pred))
+        pred = pd.DataFrame(pred, columns=columns)
         pred.to_feather(results_dir / example.time_series_predictions.path.name)
 
 
