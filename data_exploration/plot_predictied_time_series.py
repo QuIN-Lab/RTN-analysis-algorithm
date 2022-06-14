@@ -29,6 +29,7 @@ ylim = (-0.1, 1.25)
 
 def plot_time_series_predictions(example, output_format='pdf'):
 
+    example = Example(example)
     print(example)
     signals = example.read()
     # decomp_data = pd.read_csv(file('decomp_data_traps.csv'))
