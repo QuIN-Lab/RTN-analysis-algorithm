@@ -44,10 +44,13 @@ def plot_time_series_predictions(example, output_format='pdf'):
     is_real_measurement = 'time' in signals.columns
 
     # Make sure we have the columns we expect before taking the sum
-    for column in df.columns:
-        assert re.match(r'trap_\d', column)
-    df = df.apply(lambda x: x * amp_guesses[int(x.name[-1])])
-    df['sum'] = df.sum(axis=1)
+    columns = [f'trap_{i}' for i, _ in enumerate(amp_guesses)]
+    for c in columns:
+        assert c in df.columns, \
+            f'Expected `{c}` in dataframe. Found only {df.columns}.'
+    df[columns] = df[columns] \
+        .apply(lambda x: x * amp_guesses[int(x.name[-1])])
+    df['sum'] = df[columns].sum(axis=1)
     # TODO: Below is required for CNT data
     # df['sum'] = df['sum'].rolling(2).min()
     # df['sum'] += min(mean_vec)
