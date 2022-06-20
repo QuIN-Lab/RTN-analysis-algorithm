@@ -7,7 +7,7 @@ import pandas as pd
 
 from mode import Mode
 from utils import auto_n_traps
-from constants import console, DATA_DIR
+from constants import console, DATA_DIR, CNT_DATA_DIR
 from example import Example
 from normalize_reformat import reformat_real_data
 from .main import train_and_score_worker, make_predictions, \
@@ -25,12 +25,18 @@ from .main import train_and_score_worker, make_predictions, \
 @click.argument('results-dir', required=True, type=click.Path())
 @click.option('--n-traps', '-n', type=click.Choice(['1', '2', '3', 'auto']),
               default='auto', required=True,
-              help='The number of traps. If `auto`, determine from filename.')
+              help='The number of traps. If `auto`, determine from filename.'
+              'Only required for simulated data to calculate accuracy.')
 @click.option('--skip-existing/--no-skip-existing', is_flag=True, default=False,
               help='Skip training if the time_series_predictions file exists.')
 @doctool.example(
     help='The RNN is run in a similar way, although there are many more options (like GRU vs. LSTM).',
     args=[DATA_DIR / '1-trap_wn=0.4_example=0_signals.feather',],
+)
+@doctool.example(
+    help='The mode must be guessed when running on real measurements.',
+    args=['--mode=missing-level',
+          CNT_DATA_DIR / '01.LBm1_Set1_1um_500nm_3.7K_Sampling_2.0V_6.1uA_9sets_Run101-Run109_signals.feather',],
 )
 @add_model_layer_type_options
 def train(files, results_dir, mode_str, retrain, n_traps,
@@ -42,9 +48,14 @@ def train(files, results_dir, mode_str, retrain, n_traps,
     Save the results (trained model, full predictions, accuracies) in
     RESULTS_DIR.
 
-    For now, this command is only recommended for normal RTN.
-    Please use `train-artn` or `train-cnt` for other types.
-    I am working on resolving this.
+    For simulated signals, the default options should be sufficient.
+    All required information will be extracted from the filename.
+
+    For real measurements, please specify `--mode` based on
+    your assessment of the aRTN case.
+
+    This command has replaced the previous `train-artn` and `train-ctn` commands
+    (cc7af0e1).
     """
 
     # Don't use multiprocessing pool like I do for many of the step 1/2 commands

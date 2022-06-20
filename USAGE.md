@@ -16,11 +16,14 @@ Commands:
   plot-boxplot-amplitude
   plot-boxplot-artn
   plot-boxplot-digitization
+  plot-boxplot-models               Plot a boxplot comparing models with all metrics...
   plot-boxplot-subplots             Plot a boxplot with all metrics using subplots
   plot-boxplot-tau
   plot-cnt-data-prediction          Plot time-series predictions for a specific CNT...
   plot-heatmap-amplitude            Generate the amplitude heatmap reading tau results...
+  plot-heatmap-artn                 Generate an aRTN heatmap results from FILES (pandas...
   plot-heatmap-digitization         Generate the digitization heatmap reading tau...
+  plot-heatmap-ntraps
   plot-heatmap-tau                  Generate the Tau heatmap reading tau results from...
   plot-kde                          Make KDE plots for the examples specified by FILES...
   plot-psd
@@ -136,7 +139,7 @@ Save the results in RESULTS_DIR.
 Usage: python -m main output-time-series [OPTIONS] FILES... RESULTS_DIR
 
 Options:
-  -m, --mode [normal|metastable|coupled|missing-level|auto]
+  -m, --mode [normal|metastable|coupled|missing-level|mutually-exclusive|auto]
                                   Algorithm mode. If `auto`, detect automatically from filename.  [required]
   -n, --n-traps [1|2|3|auto]      The number of traps. If `auto`, determine from filename.  [required]
   -l, --recurrent-layer [gru|lstm]
@@ -179,6 +182,19 @@ Options:
 
 ```
 
+## `plot-boxplot-models`
+
+Plot a boxplot comparing models with all metrics using subplots
+
+
+```
+Usage: python -m main plot-boxplot-models [OPTIONS] FILES... OUTPUT_FILE
+
+Options:
+  --help  Show this message and exit.
+
+```
+
 ## `plot-boxplot-subplots`
 
 Plot a boxplot with all metrics using subplots
@@ -188,8 +204,9 @@ Plot a boxplot with all metrics using subplots
 Usage: python -m main plot-boxplot-subplots [OPTIONS] FILES... OUTPUT_FILE
 
 Options:
-  --sort / --no-short  Whether to separate and sort the traps into classes (a, b, c).
-  --help               Show this message and exit.
+  --sort / --no-short        Whether to separate and sort the traps into classes (a, b, c).
+  --noise-type [white|pink]  [required]
+  --help                     Show this message and exit.
 
 ```
 
@@ -236,6 +253,23 @@ Options:
 
 ```
 
+## `plot-heatmap-artn`
+
+Generate an aRTN heatmap results from FILES
+(pandas dataframes, supports `.csv` or `.feather`) and save the figures to
+OUTPUT-DIR.
+
+
+```
+Usage: python -m main plot-heatmap-artn [OPTIONS] FILES... OUTPUT_DIR COLUMN
+
+Options:
+  --output-format [pdf|png]
+  --data-type [percent|whole]
+  --help                       Show this message and exit.
+
+```
+
 ## `plot-heatmap-digitization`
 
 Generate the digitization heatmap reading tau results from FILES
@@ -251,6 +285,18 @@ Options:
   --output-format [pdf|png]
   --subtract TEXT
   --name-suffix TEXT
+  --help                     Show this message and exit.
+
+```
+
+## `plot-heatmap-ntraps`
+
+
+```
+Usage: python -m main plot-heatmap-ntraps [OPTIONS] FILES... OUTPUT_DIR
+
+Options:
+  --output-format [pdf|png]
   --help                     Show this message and exit.
 
 ```
@@ -279,7 +325,7 @@ Make KDE plots for the examples specified by FILES (specify
 Usage: python -m main plot-kde [OPTIONS] FILES...
 
 Options:
-  --mode [normal|metastable|coupled|missing-level|auto]
+  --mode [normal|metastable|coupled|missing-level|mutually-exclusive|auto]
                                   The algorithm mode. If `auto`, determine from filename.  [required]
   --debug / --no-debug            Add debug information to the figure, like N_peaks
   --output-format [pdf|png]
@@ -290,7 +336,7 @@ Options:
 ### Example 1: 
 To generate the KDE plot, run the command:
 
-`python -m main plot-kde "~/OneDrive/02. QuIN_Research/31. Noise-RTN/01. 2021_Algorithm paper/simulated_rtn/2021_07_23_generated_normal_rtn_data_4_white_noise_study/1-trap_wn=0.4_example=0_signals.feather" --output-format=png`
+`python -m main plot-kde "~/OneDrive/02. QuIN_Research/31. Noise-RTN/02. 2022_2021_Algorithm paper/simulated_rtn/2021_07_23_generated_normal_rtn_data_4_white_noise_study/1-trap_wn=0.4_example=0_signals.feather" --output-format=png`
 ![](docs/command-output-example-images/plot-kde_1-trap_wn=0.4_example=0_kde.png)
 
 ## `plot-psd`
@@ -308,7 +354,7 @@ Options:
 ### Example 1: 
 Plot the power spectral density of an example using Welch's method
 
-`python -m main plot-psd "~/OneDrive/02. QuIN_Research/31. Noise-RTN/01. 2021_Algorithm paper/simulated_rtn/2021_07_23_generated_normal_rtn_data_4_white_noise_study/1-trap_wn=0.4_example=0_signals.feather" --output-format=png`
+`python -m main plot-psd "~/OneDrive/02. QuIN_Research/31. Noise-RTN/02. 2022_2021_Algorithm paper/simulated_rtn/2021_07_23_generated_normal_rtn_data_4_white_noise_study/1-trap_wn=0.4_example=0_signals.feather" --output-format=png`
 ![](docs/command-output-example-images/plot-psd_1-trap_wn=0.4_example=0_psd.png)
 
 ## `plot-time-lag`
@@ -331,7 +377,7 @@ Options:
 ### Example 1: 
 Plot the time-lag plot for an example
 
-`python -m main plot-time-lag "~/OneDrive/02. QuIN_Research/31. Noise-RTN/01. 2021_Algorithm paper/simulated_rtn/2021_07_23_generated_normal_rtn_data_4_white_noise_study/1-trap_wn=0.4_example=0_signals.feather" --output-format=png`
+`python -m main plot-time-lag "~/OneDrive/02. QuIN_Research/31. Noise-RTN/02. 2022_2021_Algorithm paper/simulated_rtn/2021_07_23_generated_normal_rtn_data_4_white_noise_study/1-trap_wn=0.4_example=0_signals.feather" --output-format=png`
 ![](docs/command-output-example-images/plot-time-lag_1-trap_wn=0.4_example=0_time_lag.png)
 
 ## `plot-time-series-predictions`
@@ -359,9 +405,10 @@ files).
 Usage: python -m main process-gmm [OPTIONS] FILES...
 
 Options:
-  -m, --mode [normal|metastable|coupled|missing-level|auto]
+  -m, --mode [normal|metastable|coupled|missing-level|mutually-exclusive|auto]
                                   Algorithm mode. If `auto`, detect automatically from filename.  [required]
   --output-format [pdf|png]
+  --debug / --no-debug
   --help                          Show this message and exit.
 
 ```
@@ -369,7 +416,7 @@ Options:
 ### Example 1: 
 To process the GMM and generate the GMM plot, run the command:
 
-`python -m main process-gmm "~/OneDrive/02. QuIN_Research/31. Noise-RTN/01. 2021_Algorithm paper/simulated_rtn/2021_07_23_generated_normal_rtn_data_4_white_noise_study/1-trap_wn=0.4_example=0_signals.feather" --output-format=png`
+`python -m main process-gmm "~/OneDrive/02. QuIN_Research/31. Noise-RTN/02. 2022_2021_Algorithm paper/simulated_rtn/2021_07_23_generated_normal_rtn_data_4_white_noise_study/1-trap_wn=0.4_example=0_signals.feather" --output-format=png`
 ![](docs/command-output-example-images/process-gmm_1-trap_wn=0.4_example=0_decomposition.png)
 
 ## `process-kde`
@@ -382,7 +429,7 @@ Run KDE step for the examples specified by FILES
 Usage: python -m main process-kde [OPTIONS] FILES...
 
 Options:
-  --mode [normal|metastable|coupled|missing-level|auto]
+  --mode [normal|metastable|coupled|missing-level|mutually-exclusive|auto]
                                   The algorithm mode. If `auto`, determine from filename.  [required]
   --input-column TEXT             The column of the input dataframe to consider as the raw, noisy input
                                   signal.
@@ -444,19 +491,27 @@ Train the RNN model for the examples specified by FILES (specify
 Save the results (trained model, full predictions, accuracies) in
 RESULTS_DIR.
 
-For now, this command is only recommended for normal RTN.
-Please use `train-artn` or `train-cnt` for other types.
-I am working on resolving this.
+For simulated signals, the default options should be sufficient.
+All required information will be extracted from the filename.
+
+For real measurements, please specify `--mode` based on
+your assessment of the aRTN case.
+
+This command has replaced the previous `train-artn` and `train-ctn` commands
+(cc7af0e1).
 
 
 ```
 Usage: python -m main train [OPTIONS] FILES... RESULTS_DIR
 
 Options:
-  -m, --mode [normal|metastable|coupled|missing-level|auto]
+  -m, --mode [normal|metastable|coupled|missing-level|mutually-exclusive|auto]
                                   Algorithm mode. If `auto`, detect automatically from filename.  [required]
   --retrain / --no-retrain        Wether to retrain or to load weights from the saved .h5 file  [required]
-  -n, --n-traps [1|2|3|auto]      The number of traps. If `auto`, determine from filename.  [required]
+  -n, --n-traps [1|2|3|auto]      The number of traps. If `auto`, determine from filename.Only required for
+                                  simulated data to calculate accuracy.  [required]
+  --skip-existing / --no-skip-existing
+                                  Skip training if the time_series_predictions file exists.
   -l, --recurrent-layer [gru|lstm]
                                   Type of recurrent layer to use (RNN only)  [required]
   --model-type [rnn|wavenet]      Model structure to use  [required]
@@ -467,5 +522,11 @@ Options:
 ### Example 1: 
 The RNN is run in a similar way, although there are many more options (like GRU vs. LSTM).
 
-`python -m main train "~/OneDrive/02. QuIN_Research/31. Noise-RTN/01. 2021_Algorithm paper/simulated_rtn/2021_07_23_generated_normal_rtn_data_4_white_noise_study/1-trap_wn=0.4_example=0_signals.feather"`
+`python -m main train "~/OneDrive/02. QuIN_Research/31. Noise-RTN/02. 2022_2021_Algorithm paper/simulated_rtn/2021_07_23_generated_normal_rtn_data_4_white_noise_study/1-trap_wn=0.4_example=0_signals.feather"`
+
+
+### Example 2: 
+The mode must be guessed when running on real measurements.
+
+`python -m main train --mode=missing-level "~/OneDrive/02. QuIN_Research/31. Noise-RTN/02. 2022_2021_Algorithm paper/simulated_rtn/30. CNT real data/01.LBm1_Set1_1um_500nm_3.7K_Sampling_2.0V_6.1uA_9sets_Run101-Run109_signals.feather"`
 
