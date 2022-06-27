@@ -12,19 +12,6 @@ See also:
 - [Description of the change in τ error calculation](./docs/tau_error_definition.md)
 - [Running modes of the algorithm](./docs/algorithm_modes.md)
 
-## History
-
-This repository is the result of merging the previously distinct repositories:
-
-- [RTN-AJ/Noise Simulation](https://git.uwaterloo.ca/QuINLab/Projects/Noise/RTN-AJ/noise-simulation/-/tree/master)
-- [RTN-Lu/RTN-Lu](https://git.uwaterloo.ca/QuINLab/Projects/Noise/rtn-lu/rtn-lu/-/tree/marcel)
-
-The former was originally created by AJ and heavily modified by Marcel.
-The latter was created for Lu's RNN model for step 3 of our algorithm.
-The two repositories have been merged
-in order to have one common repository for the entire algorithm
-and to reused code between the steps of the algorithm.
-
 ## Setup
 
 ### Anaconda method
