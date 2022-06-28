@@ -363,9 +363,6 @@ def train_and_score_worker(
                 filename_template=
                 result.with_name('generated_data_{:02d}.feather').path,
             )
-            print(amp_guesses)
-            print(n_traps)
-            print(generated_dfs[0])
         result.with_name('timer_rnn_generate.txt').write(str(t.elapse))
 
         # train and test model with generated data:
