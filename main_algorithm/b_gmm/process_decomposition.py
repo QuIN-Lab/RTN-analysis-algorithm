@@ -21,6 +21,7 @@ from tqdm import tqdm
 
 from mode import Mode
 from example import Example
+from constants import DATA_DIR
 from utils import print_filename_on_exception
 from .plot_gmm import plot_gmm
 from .define_mixture_model import define_mixture_model
