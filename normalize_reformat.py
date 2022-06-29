@@ -6,9 +6,9 @@ Developed by Marcel Robitaille on 2022/03/18 Copyright © 2021 QuIN Lab
 """
 
 import numpy as np
-from numpy.stride_tricks import sliding_window_view
 
 from constants import STEPS, BATCH_SIZE, console
+from numpy_stride_tricks import sliding_window_view
 from utils import has_labels
 
 
