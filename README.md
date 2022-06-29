@@ -37,29 +37,7 @@ See also:
 	pip install -r requirements.txt
 	```
 
-## Data
-
-This section documents the various data files and folders used by this project.
-
-### Folders
-
-Please see the `README.md` file inside of `OneDrive/02. QuIN_Research/31. Noise-RTN/01. 2021_Algorithm paper/simulated_rtn` for more information.
-
-- **Normal RTN:** The latest normal RTN data is in `OneDrive/02. QuIN_Research/31. Noise-RTN/01. 2021_Algorithm paper/simulated_rtn/2021_07_23_generated_normal_rtn_data_4_white_noise_study`
-	It was generated on 2021/07/21.
-	For each N_traps in 1, 2, 3 and each noise value from 0% to 100% in increments of 10%,
-	10 examples are generated.
-	This gives 330 total examples.
-	The signal length is one million points.
-- **Anomalous RTN:** The anomalous RTN dataset with 30 examples is `OneDrive/02. QuIN_Research/31. Noise-RTN/01. 2021_Algorithm paper/simulated_rtn/2022_01_10_generated_anomalous_data_1_wn=20_examples=30`.
-	It was generated on 2022/01/10.
-	For each class of aRTN (metastable, missing level, and coupled), 10 examples are generated
-	with a fixed 20% white noise level.
-	This gives 30 total examples.
-	The signal length is one million points.
-- **CNT real data:** The CNT film measurements are in `OneDrive/02. QuIN_Research/31. Noise-RTN/01. 2021_Algorithm paper/simulated_rtn/30. CNT real data/`.
-
-### Files
+### Description of Data Files
 
 This project uses many different types of files. There are two "design value" files for each example:
 files ending in `_signals.feather` and `_parameters.csv`.
