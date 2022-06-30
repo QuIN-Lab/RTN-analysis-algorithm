@@ -169,32 +169,3 @@ temporary code, works in progress, and debugging code.
 ## Usage (running the code)
 
 Please see [`USAGE.md`](./USAGE.md) for the full usage.
-
-## Housekeeping
-
-Documentation about some housekeeping and common mistakes to avoid.
-
-### Trap matching
-
-The order of the traps returned by the algorithm is not necessarily the order in the design values.
-That is because giving the design values to the algorithm would be cheating.
-Therefore, the algorithm creates its own arbitrary ordering,
-and we must match this to the design values when collecting the results.
-
-Here is one implementation of this trap matching in the digitization accuracy collection code.
-
-```python
-# Match the predicted traps with the true traps
-# The algorithm does not necessarily output the traps in the same order as
-# our design values
-return min((
-    # We want to return a list of the accuracy for each predicted trap
-    # so here we should loop through the predicted n_traps
-    [(true_n_traps, noise, example_number, true_trap,
-      digitization_error(pred_trap=pred_trap, true_trap=true_trap))
-     for pred_trap, true_trap in zip(range(n_traps), true_traps)]
-    # We try each permutation of the true traps
-    # and take the minimum
-    for true_traps in permutations(range(true_n_traps))
-), key=lambda rows: sum(row[-1] for row in rows))
-```
