@@ -3,6 +3,7 @@ from pathlib import Path
 
 import click
 import doctool
+import numpy as np
 import pandas as pd
 
 from mode import Mode
