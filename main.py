@@ -40,7 +40,7 @@ load_all(results_aggregation)
 
 
 if __name__ == '__main__':
-    now = datetime.today().strftime('%Y-%m-%d-%H:%M:%S')
+    now = datetime.today().strftime('%Y-%m-%d-%H-%M-%S')
     try:
         main()  # pylint: disable=no-value-for-parameter
     except SystemExit:
