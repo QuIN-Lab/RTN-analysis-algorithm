@@ -4,6 +4,8 @@ Entry point for everything. Loads all the click commands.
 Developed by Marcel Robitaille on 2022/03/15 Copyright © 2021 QuIN Lab
 """
 
+import os
+import sys
 import traceback
 from datetime import datetime
 
@@ -41,6 +43,8 @@ load_all(results_aggregation)
 
 if __name__ == '__main__':
     now = datetime.today().strftime('%Y-%m-%d-%H-%M-%S')
+    console.print('sys.argv', sys.argv)
+    console.print('cwd', os.getcwd())
     try:
         main()  # pylint: disable=no-value-for-parameter
     except SystemExit:
