@@ -129,7 +129,7 @@ def output_time_series(results_dir, mode_str, n_traps, files,
                                 model_type=model_type)
 
         # Not necessarily 'trap_0', 'trap_1' in that order!
-        columns = [c for c in signals.columns if re.fullmatch(r'trap_\d')] \
+        columns = [c for c in signals.columns if re.fullmatch(r'trap_\d', c)] \
             [:np.shape(pred)[0]]
         console.print(type(pred))
         console.print(np.shape(pred))
