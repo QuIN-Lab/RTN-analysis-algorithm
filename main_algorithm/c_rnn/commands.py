@@ -132,8 +132,9 @@ def output_time_series(results_dir, mode_str, n_traps, files,
         # Not necessarily 'trap_0', 'trap_1' in that order!
         columns = [c for c in signals.columns if re.fullmatch(r'trap_\d', c)] \
             [:np.shape(pred)[0]]
+        print('np.shape(pred)', np.shape(pred))
         if len(columns) == 0:
-            columns = [f'trap_{i}' for i in range(np.shape(pred)[0])]
+            columns = [f'trap_{i}' for i in range(np.shape(pred)[1])]
         console.print(type(pred))
         console.print(np.shape(pred))
         pred = pd.DataFrame(pred, columns=columns)
